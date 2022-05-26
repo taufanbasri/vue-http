@@ -38,6 +38,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -46,7 +48,6 @@ export default {
       invalidInput: false,
     };
   },
-  emits: ['survey-submit'],
   methods: {
     submitSurvey() {
       if (this.enteredName === '' || !this.chosenRating) {
@@ -55,10 +56,10 @@ export default {
       }
       this.invalidInput = false;
 
-      this.$emit('survey-submit', {
-        userName: this.enteredName,
-        rating: this.chosenRating,
-      });
+      axios.post('https://http-vue-20891-default-rtdb.asia-southeast1.firebasedatabase.app/surveys.json', {
+        name: this.enteredName,
+        rating: this.chosenRating
+      })
 
       this.enteredName = '';
       this.chosenRating = null;

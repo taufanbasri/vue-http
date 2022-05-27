@@ -6,7 +6,9 @@
         <base-button @click="loadExperience">Load Submitted Experiences</base-button>
       </div>
       <p v-if="isLoading">Loading...</p>
-      <ul v-else>
+      <p v-else-if="!isLoading && error">{{ error }}</p>
+      <p v-else-if="!isLoading && (!results || results.length === 0)">No stored experiences found. Start adding some survey results</p>
+      <ul v-else-if="!isLoading && results && results.length > 0">
         <survey-result
           v-for="result in results"
           :key="result.id"
@@ -32,14 +34,16 @@ export default {
   data() {
     return {
       results: [],
-      isLoading: false
+      isLoading: false,
+      error: null
     }
   },
   methods: {
     loadExperience() {
       this.isLoading = true
+      this.error = null
 
-      axios.get('https://http-vue-20891-default-rtdb.asia-southeast1.firebasedatabase.app/surveys.json')
+      axios.get('https://http-vue-20891-default-rtdb.asia-southeast1.firebasedatabase.app/surveysjson')
       .then(response => {
         this.isLoading = false
 
@@ -56,8 +60,10 @@ export default {
 
         this.results = results
       })
-      .catch(function (error) {
+      .catch(error => {
         console.log(error);
+        this.isLoading = false
+        this.error = 'Failed to fetch data. Please try again later '
       })
     }
   },

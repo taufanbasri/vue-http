@@ -43,7 +43,7 @@ export default {
       this.isLoading = true
       this.error = null
 
-      axios.get('https://http-vue-20891-default-rtdb.asia-southeast1.firebasedatabase.app/surveysjson')
+      axios.get('https://http-vue-20891-default-rtdb.asia-southeast1.firebasedatabase.app/surveys.json')
       .then(response => {
         this.isLoading = false
 

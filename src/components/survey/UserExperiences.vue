@@ -22,6 +22,9 @@ import SurveyResult from './SurveyResult.vue';
 import axios from 'axios';
 
 export default {
+  mounted() {
+    this.loadExperience()
+  },
   components: {
     SurveyResult,
   },
@@ -44,7 +47,7 @@ export default {
             rating: data[id].rating
           })
         }
-        
+
         this.results = results
       })
       .catch(function (error) {
